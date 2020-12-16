@@ -6,27 +6,22 @@ import Navbar from './components/navbar';
 
 class App extends Component {
   state = {
-    kyword: '',
     habits: [
       { id: 1, name: 'Reading', count: 0 },
       { id: 2, name: 'Reading', count: 0 },
       { id: 3, name: 'Reading', count: 0 },
     ],
   };
-  handleChange = (e) => {
-    this.setState({
-      keyword: e.target.value
-    })
-  }
-  handleAdd = () => {
-    console.log('add')
-    const habits = [...this.state.habits];
-    habits.push({
-      id : this.state.habits[this.state.habits.length - 1].id + 1,
-      name : this.state.keyword,
-      count : 0
-    })
-    this.setState({ keyword:'',habits: habits })
+  handleAdd = name => {
+    const habits = [
+      ...this.state.habits,
+      {
+        id: this.state.habits[this.state.habits.length - 1].id + 1,
+        name: name,
+        count: 0
+      }
+    ];
+    this.setState({ habits: habits })
   }
   handleIncrement = habit => {
     console.log(habit.id)
@@ -48,24 +43,25 @@ class App extends Component {
     this.setState({ habits: habits })
   }
   handleResetAll = () => {
-    this.setState({ habits: [] })
+    const habits = this.state.habits.map(habit => {
+      habit.count = 0;
+      return habit;
+    })
+    this.setState({ habits: habits })
   }
 
   render() {
     return (
       <div>
-        <Navbar totalCount={this.state.habits.filter(item => item.count > 0 ).length} />
-        <input
-          placeholder='habit'
-          onChange={this.handleChange}
-        />
-        <button onClick={this.handleAdd}>Add</button>
+        <Navbar totalCount={this.state.habits.filter(item => item.count > 0).length} />
         <Habits
           habits={this.state.habits}
           onIncrement={this.handleIncrement}
           onDecrement={this.handleDecrement}
-          onDel={this.handleDel} />
-        <button onClick={this.handleResetAll}>Reset All</button>
+          onDel={this.handleDel}
+          onAdd={this.handleAdd}
+          onRestAll={this.handleResetAll}
+        />
       </div>
     );
   }
