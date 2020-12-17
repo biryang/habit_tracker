@@ -3,37 +3,35 @@ import Habit from './habit';
 import HabitAddForm from './habitAddForm';
 
 class Habits extends Component {
-  handleIncrement = (habit) => { 
+  handleIncrement = (habit) => {
     this.props.onIncrement(habit)
   }
-  handleDecrement = (habit) => { 
+  handleDecrement = (habit) => {
     this.props.onDecrement(habit)
   }
-  handleDel = (habit) => { 
+  handleDel = (habit) => {
     this.props.onDel(habit)
   }
-  handleAdd = (name) =>{
+  handleAdd = (name) => {
     this.props.onAdd(name)
   }
-  handleRestAll = () =>{
+  handleRestAll = () => {
     this.props.onRestAll()
   }
 
   render() {
     return (
-      <div>
-        <HabitAddForm onAdd={this.handleAdd}/>
+      <div className="habits">
+        <HabitAddForm onAdd={this.handleAdd} />
         <ul>
           {this.props.habits.map(habit => (
-            <li key={habit.id}>
-              <Habit
-                key={habit.id}
-                habit={habit}
-                onIncrement={this.handleIncrement}
-                onDecrement={this.handleDecrement}
-                onDel={this.handleDel}
-              />
-            </li>
+            <Habit
+              key={habit.id}
+              habit={habit}
+              onIncrement={this.handleIncrement}
+              onDecrement={this.handleDecrement}
+              onDel={this.handleDel}
+            />
           ))}
         </ul>
         <button className="habits-reset " onClick={this.handleRestAll}>Reset All</button>
